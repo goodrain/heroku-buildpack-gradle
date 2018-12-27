@@ -90,6 +90,7 @@ install_jdk() {
 
   let start=$(nowms)
   JVM_COMMON_BUILDPACK=${JVM_COMMON_BUILDPACK:-http://lang.goodrain.me/java/new-jvm.tgz}
+  echo "Download JVM: ${JVM_COMMON_BUILDPACK}"
   mkdir -p /tmp/jvm-common
   curl --retry 3 --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common --strip-components=1
   source /tmp/jvm-common/bin/util
