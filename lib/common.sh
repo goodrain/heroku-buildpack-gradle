@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export BUILDPACK_STDLIB_URL="https://lang-common.s3.amazonaws.com/buildpack-stdlib/v7/stdlib.sh"
+export BUILDPACK_STDLIB_URL="http://lang.goodrain.me/common/buildpack-stdlib/v7/stdlib.sh"
 
 gradle_build_file() {
   local buildDir=${1}
@@ -89,12 +89,12 @@ install_jdk() {
   local install_dir=${1}
 
   let start=$(nowms)
-  JVM_COMMON_BUILDPACK=${JVM_COMMON_BUILDPACK:-https://buildpack-registry.s3.amazonaws.com/buildpacks/heroku/jvm.tgz}
+  JVM_COMMON_BUILDPACK=${JVM_COMMON_BUILDPACK:-http://lang.goodrain.me/java/new-jvm.tgz}
   mkdir -p /tmp/jvm-common
   curl --retry 3 --silent --location $JVM_COMMON_BUILDPACK | tar xzm -C /tmp/jvm-common --strip-components=1
   source /tmp/jvm-common/bin/util
   source /tmp/jvm-common/bin/java
-  source /tmp/jvm-common/opt/jdbc.sh
+  source /tmp/jvm-common/bin/jdbc.sh
   mtime "jvm-common.install.time" "${start}"
 
   let start=$(nowms)
