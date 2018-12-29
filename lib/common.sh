@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 export BUILDPACK_STDLIB_URL="http://lang.goodrain.me/common/buildpack-stdlib/v7/stdlib.sh"
+export DISABLE_HEROKU_METRICS_AGENT="true"
+export DEFAULT_GRADLE_VERSION="4.5"
 
 gradle_build_file() {
   local buildDir=${1}
@@ -101,4 +103,11 @@ install_jdk() {
   let start=$(nowms)
   install_java_with_overlay ${install_dir}
   mtime "jvm.install.time" "${start}"
+}
+
+
+_check_gradle_version() {
+  local path=${1}
+  new_url=$(cat $path | grep distributionUrl | awk -F= '{print $2}' |sed 's#https\\://services.gradle.org/distributions#http\\://lang.goodrain.me/gradle#g')
+  sed -i -r  "s/(^distributionUrl=).*/\1$new_url/" $path
 }
